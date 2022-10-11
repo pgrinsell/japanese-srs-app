@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import Card from '@mui/joy/Card';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
-import { toKana, isKana, isRomaji } from 'wanakana';
+import { toKana, isKana } from 'wanakana';
 import logo from './logo.svg';
 
 const theme = extendTheme({
@@ -23,16 +23,29 @@ const defaultState = {
   reviews: []
 };
 
+// SRS formula based on WaniKani as described in this blog:
+// https://knowledge.wanikani.com/wanikani/srs-stages/
+const getNewSrsStage = (currentSrsStage, incorrectAdjustmentCount, srsPenaltyFactor) => {
+  return currentSrsStage - (incorrectAdjustmentCount * srsPenaltyFactor);
+};
+
 const App = () => {
   const [reading, setReading] = useState('');
   const [meaning, setMeaning] = useState('');
 
+  const handleChange = value => {
+    const updatedValue = toKana(value, { IMEMode: true });
+    setReading(updatedValue);
+  };
+
   const handleSubmitLesson = e => {
     e.preventDefault();
 
+    const readingAsKana = toKana(reading);
+
     const review = {
       meanings: [meaning.toLowerCase()],
-      readings: [reading],
+      readings: [readingAsKana],
       //nextReview: Date.now()
     };
 
@@ -41,21 +54,22 @@ const App = () => {
     //setState({ reviews: [...state.reviews, review] });
   };
 
-  useEffect(() => {
-    console.log(toKana(reading));
-  }, [reading]);
-
   return (
     <CssVarsProvider theme={theme}>
       <Card variant="outlined" sx={{ m: 2 }}>
         <form onSubmit={handleSubmitLesson}>
           <Box sx={{ display: "grid", gap: 2 }}>
-            <Typography>Add a new lesson</Typography>
+            <Typography level="h2" fontSize="md">
+              Add a new lesson
+            </Typography>
             <TextField
+              //ref={ref}
               type="text"
               label="Reading"
               value={reading}
-              onChange={e => setReading(e.target.value)}
+              onChange={e => handleChange(e.target.value)}
+              //error={e => !isKana(e.target.value)}
+              //helperText="Please write the reading in kana"
             />
             <TextField
               type="text"
@@ -68,10 +82,20 @@ const App = () => {
         </form>
       </Card>
       <Card variant="outlined" sx={{ m: 2 }}>
-        <Typography>Reviews</Typography>
+        <Typography level="h2" fontSize="md">
+          Reviews
+        </Typography>
+        <Typography>
+          You have no new reviews.
+        </Typography>
       </Card>
       <Card variant="outlined" sx={{ m: 2 }}>
-        <Typography>Schedule</Typography>
+        <Typography level="h2" fontSize="md">
+          Schedule
+        </Typography>
+        <Typography>
+          You have no reviews scheduled.
+        </Typography>
       </Card>
     </CssVarsProvider>
   );

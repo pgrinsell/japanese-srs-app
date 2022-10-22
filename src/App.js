@@ -6,7 +6,6 @@ import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
 import { toKana, isKana } from 'wanakana';
-import logo from './logo.svg';
 
 const theme = extendTheme({
   components: {

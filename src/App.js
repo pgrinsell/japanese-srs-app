@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { CssVarsProvider, extendTheme } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
-import useLocalforage from './useLocalforage';
-import LessonCard from './components/LessonCard';
-import ReviewsCard from './components/ReviewsCard';
-import UpcomingReviewsCard from './components/UpcomingReviewsCard';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import StartPage from './components/StartPage';
+import ReviewsPage from './components/ReviewsPage';
 
 const theme = extendTheme({
   components: {
@@ -17,23 +16,22 @@ const theme = extendTheme({
   }
 });
 
-const Reviews = () => {
-  const [reviews] = useLocalforage('reviews', []);
-
-  console.log('reviews', reviews);
-
-  return (
-    <p>reviews: {reviews.length}</p>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <StartPage />
+  },
+  {
+    path: '/reviews',
+    element: <ReviewsPage />
+  }
+]);
 
 const App = () => {
   return (
     <CssVarsProvider theme={theme}>
       <CssBaseline />
-      <LessonCard />
-      <ReviewsCard />
-      <UpcomingReviewsCard />
+      <RouterProvider router={router} />
     </CssVarsProvider>
   );
 };

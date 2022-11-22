@@ -4,6 +4,8 @@ import Typography from '@mui/joy/Typography';
 import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 import Link from '@mui/joy/Link';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { toKana, isKana } from 'wanakana';
 import Card from './Card';
 
@@ -22,22 +24,38 @@ const QuestionCard = ({ question, onSubmitAnswer }) => {
 
   return (
     <Card>
-      <Typography>
+      <Typography
+        level="h2"
+        sx={{
+          textAlign: 'center',
+          mb: 2
+        }}
+      >
         {question.question}
       </Typography>
       <form onSubmit={handleSubmit}>
         <TextField
           type="text"
-          label={question.type === 'reading' ? 'Reading' : 'Meaning'}
+          placeholder={question.type === 'reading' ? 'Reading' : 'Meaning'}
           value={answer}
           onChange={e => handleSetAnswer(e.target.value)}
+          sx={{ textAlign: 'center' }}
+          endDecorator={(
+            <Button
+              type="submit"
+              variant="plain"
+              sx={{ p: 0 }}
+            >
+              <ChevronRightIcon />
+            </Button>
+          )}
         />
-        <Button
+        {/* <Button
           type="submit"
         //disabled={reading.length === 0 || meaning.length === 0 || !isKana(reading)}
         >
           Submit
-        </Button>
+        </Button> */}
       </form>
     </Card>
   );
@@ -106,16 +124,20 @@ const ReviewsPage = () => {
   if (question) {
     return (
       <>
-        <Link
+        <Button
+          component={Link}
           href="/"
-          overlay
           underline="none"
+          sx={{ mt: 2, ml: 2 }}
+          variant="outlined"
+          startDecorator={<ChevronLeftIcon />}
+          size="sm"
         >
           Back
-        </Link>
+        </Button>
         <QuestionCard
           question={question}
-          onSubmit={handleSubmitAnswer}
+          onSubmitAnswer={handleSubmitAnswer}
         />
       </>
     );

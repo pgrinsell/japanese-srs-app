@@ -28,7 +28,10 @@ const ReviewsPage = () => {
   const handleSubmitAnswer = answer => {
     const newQuestions = [...questions];
     const question = newQuestions.shift();
-    const isCorrect = Boolean(question.answers.find(a => a.toLocaleLowerCase() === answer.toLocaleLowerCase()));
+
+    const isCorrect = question.type === 'meaning'
+      ? Boolean(question.answers.find(a => a.toLocaleLowerCase() === answer.toLocaleLowerCase()))
+      : Boolean(question.answers.find(a => a === answer));
 
     if (isCorrect) {
       console.log('correct');
@@ -50,12 +53,6 @@ const ReviewsPage = () => {
       setQuestion(questions[0]);
     }
   }, [questions]);
-  
-  useEffect(() => {
-    console.log('question', question);
-  }, [question]);
-
-  console.log('questions', questions);
 
   if (questions.length === 0) {
     return (

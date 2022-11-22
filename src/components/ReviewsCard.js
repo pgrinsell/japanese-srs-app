@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/joy/Typography';
 import useLocalforage from '../useLocalforage';
 import Card from './Card';
-import { Link } from '@mui/joy';
+import Link from '@mui/joy/Link';
 
 const ReviewsCard = () => {
   const [reviews] = useLocalforage('reviews', []);

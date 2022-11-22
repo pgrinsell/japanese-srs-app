@@ -17,6 +17,7 @@ const QuestionCard = ({ question, onSubmitAnswer }) => {
   const handleSubmit = e => {
     e.preventDefault();
     onSubmitAnswer(answer);
+    setAnswer('');
   };
 
   return (

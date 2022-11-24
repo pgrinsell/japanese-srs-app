@@ -16,7 +16,7 @@ const useLocalforage = (key, initialValue = null) => {
     })();
 
     console.log(initialValue, key);
-  }, [key]);
+  }, [key, initialValue]);
 
   const setValue = (value) => {
     (async () => {

@@ -3,7 +3,7 @@ import Typography from '@mui/joy/Typography';
 import TextField from '@mui/joy/TextField';
 import Button from '@mui/joy/Button';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { toKana, isKana } from 'wanakana';
+import { toKana } from 'wanakana';
 import Card from './Card';
 
 const QuestionCard = ({ question, onSubmitAnswer }) => {

@@ -12,19 +12,6 @@ const ReviewsPage = () => {
   const [questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState(null);
 
-  const handleSetQuestions = () => {
-    // todo implement default batch size
-
-    const testQuestions = [
-      ...reviews.map(r => ({ type: 'meaning', question: r.reading, answers: r.meanings })),
-      ...reviews.map(r => ({ type: 'reading', question: r.meanings[0], answers: [r.reading] }))
-    ];
-
-    // todo shuffle test
-
-    setQuestions(testQuestions);
-  };
-
   const handleSubmitAnswer = answer => {
     const newQuestions = [...questions];
     const question = newQuestions.shift();
@@ -45,7 +32,20 @@ const ReviewsPage = () => {
   };
 
   useEffect(() => {
-    handleSetQuestions();
+    if (!reviews) {
+      return;
+    }
+
+    // todo implement default batch size
+
+    const testQuestions = [
+      ...reviews.map(r => ({ type: 'meaning', question: r.reading, answers: r.meanings })),
+      ...reviews.map(r => ({ type: 'reading', question: r.meanings[0], answers: [r.reading] }))
+    ];
+
+    // todo shuffle test
+
+    setQuestions(testQuestions);
   }, [reviews]);
 
   useEffect(() => {
